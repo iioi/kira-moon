@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    name: mydb
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://172.168.10.11:3306/kira-moon
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    validationQuery: SELECT "Tkira" FROM DUAL
+    
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  typeAliasesPackage: com.tkira.moon.entity
