@@ -14,4 +14,8 @@ public class SysUser {
 	private String email;
 	
 	private String telephone;
+	
+	private String photoUrl;
+	
+	private String introduction;
 }

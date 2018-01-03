@@ -5,4 +5,6 @@ import com.tkira.moon.entity.SysUser;
 public interface SysUserMapper {
 
 	SysUser queryByUsername(String username);
+	
+	SysUser queryUserInfo(Integer id);
 }
