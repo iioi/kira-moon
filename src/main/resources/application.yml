@@ -7,9 +7,15 @@ spring:
     password: root
     driver-class-name: com.mysql.jdbc.Driver
     validationQuery: SELECT "Tkira" FROM DUAL
+  thymeleaf:
+    cache: false #关闭缓存
+    prefix: classpath:/views/ #添加路径前缀
+    mode: LEGACYHTML5 #模板支持html5
+    
+    
     
 mybatis:
   mapperLocations: classpath:mapper/*.xml
   typeAliasesPackage: com.tkira.moon.entity
   configuration:
-    mapUnderscoreToCamelCase: true
+    mapUnderscoreToCamelCase: true #配置驼峰转换

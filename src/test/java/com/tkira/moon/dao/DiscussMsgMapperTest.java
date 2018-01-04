@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tkira.moon.entity.DiscussMsg;
-import com.tkira.moon.entity.SysUser;
+import com.tkira.moon.entity.auth.SysUser;
 import com.tkira.test.BaseTest;
 
 public class DiscussMsgMapperTest extends BaseTest {

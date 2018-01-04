@@ -2,11 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tkira.moon.dao.SysUserMapper">
-	<select id="queryByUsername" resultType="SysUser">
-		SELECT * FROM sys_user
-		WHERE username = #{username}
+	<sql id="baseInfo">
+		id,
+		user_no,
+		username,
+		password,
+		email,
+		telephone,
+		status
+	</sql>
+	<select id="queryByCondition" resultMap="SysUserMap">
+		SELECT <include refid="baseInfo"/> FROM sys_user WHERE 
+		<choose>
+			<when test="type == 0"> username </when>
+			<when test="type == 1"> user_no </when>
+			<when test="type == 2"> telephone </when>
+			<when test="type == 3"> email </when>
+		</choose>
+		= #{queryStr}
 	</select>
-	<select id="queryUserInfo" parameterType="Integer" resultType="SysUser">
+	<resultMap type="SysUser" id="SysUserMap">
+		<collection property="roles" column="id" ofType="SysRole"
+			select="com.tkira.moon.dao.SysRoleMapper.queryByUserId"/>
+	</resultMap>
+	
+	<select id="querySimpleInfo" parameterType="Integer" resultType="User">
 		SELECT
 		id,
 		username,

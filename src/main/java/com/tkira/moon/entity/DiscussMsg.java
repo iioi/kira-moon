@@ -1,5 +1,7 @@
 package com.tkira.moon.entity;
 
+import com.tkira.moon.entity.auth.SysUser;
+
 import lombok.Data;
 
 @Data
