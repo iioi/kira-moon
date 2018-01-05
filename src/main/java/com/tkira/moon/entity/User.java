@@ -2,9 +2,13 @@ package com.tkira.moon.entity;
 
 import java.util.Date;
 
+import com.tkira.moon.util.ReflectionHelper;
+
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class User {
 
 	private Integer id;
@@ -19,4 +23,8 @@ public class User {
 	private Date createTime;
 	private Date updateTime;
 
+	public User(User user) {
+		ReflectionHelper.beanFieldsCopy(this, user);
+	}
+	
 }

@@ -22,6 +22,7 @@
 		= #{queryStr}
 	</select>
 	<resultMap type="SysUser" id="SysUserMap">
+		<id property="id" column="id"/>
 		<collection property="roles" column="id" ofType="SysRole"
 			select="com.tkira.moon.dao.SysRoleMapper.queryByUserId"/>
 	</resultMap>
@@ -37,4 +38,34 @@
 		WHERE
 		id = #{id};
 	</select>
+	
+	<select id="exitsUserNo" resultType="int">
+		SELECT count(*) FROM sys_user WHERE user_no = #{userNo}
+	</select>
+	
+	<sql id="fullInfo">
+		id,
+		user_no,
+		username,
+		password,
+		email,
+		telephone,
+		photo_url,
+		introduction,
+		status,
+		create_time,
+		update_time
+	</sql>
+	<insert id="insert" parameterType="User">
+		INSERT INTO sys_user (<include refid="fullInfo"/>)
+			VALUES (#{id},#{userNo},#{username},#{password},#{email},#{telephone},
+				#{photoUrl},#{introduction},#{status},#{createTime},#{updateTime})
+	</insert>
+	<insert id="insertHis" parameterType="UserHis">
+		INSERT INTO his_user (<include refid="fullInfo"/>,link_user_id)
+			VALUES (#{id},#{userNo},#{username},#{password},#{email},#{telephone},
+				#{photoUrl},#{introduction},#{status},#{createTime},#{updateTime},
+				#{linkUser.id})
+	</insert>
+	
 </mapper>

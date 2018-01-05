@@ -8,6 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.tkira.moon.entity.User;
+
 import lombok.Data;
 
 @Data
@@ -59,6 +61,13 @@ public class SysUser implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+	
+	// custom method, change to a normal user entity
+	public User convertToUser() {
+		User user = new User();
+		user.setId(id);
+		return user;
 	}
 	
 }

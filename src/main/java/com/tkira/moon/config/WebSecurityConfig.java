@@ -27,12 +27,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().anyRequest().authenticated().and().formLogin().loginPage("/login")
-				.failureUrl("/login?error").permitAll().and().logout().logoutUrl("/logout").permitAll().and();
+				.failureUrl("/login?error").permitAll().and().logout().logoutUrl("/logout").permitAll()
+				.and().csrf().disable();
 	}
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/views/css/**").antMatchers("/views/js/**")
 			.antMatchers("/views/img/**").antMatchers("/").antMatchers("/index");
+		// permit all temporarily
+		//web.ignoring().anyRequest();
 	}
 }

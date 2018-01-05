@@ -11,7 +11,7 @@
 				#{createDate},#{updateDate})
 	</insert>
 	<insert id="insertHis" parameterType="TopicHis" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO his_topic (<include refid="topicBaseInfo"/>,detail,create_date,link_topic_id)
+		INSERT INTO his_topic (<include refid="topicBaseInfo"/>,detail,create_date,update_user_id,link_topic_id)
 			VALUES (#{name},#{moderator.id},#{introduction},#{status},#{parentTopic.id},#{detail},
 				#{createDate},#{updateUser.id},#{linkTopic.id})
 	</insert>
@@ -39,6 +39,7 @@
 		SELECT * FROM db_topic WHERE id = #{id}
 	</select>
 	<resultMap type="Topic" id="TopicMap">
+		<id property="id" column="id"/>
 		<association property="moderator" column="moderator_id"
 			select="com.tkira.moon.dao.SysUserMapper.querySimpleInfo"/>
 		<association property="parentTopic" column="parent_topic_id"
