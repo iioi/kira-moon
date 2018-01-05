@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tkira.moon.dao.TopicMapper">
+	<sql id="topicBaseInfo">
+		name,moderator_id,introduction,status,parent_topic_id
+	</sql>
+	<insert id="insert" parameterType="Topic" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO db_topic (<include refid="topicBaseInfo"/>,detail,create_date,update_date)
+			VALUES (#{name},#{moderator.id},#{introduction},#{status},#{parentTopic.id},#{detail},
+				#{createDate},#{updateDate})
+	</insert>
+	<insert id="insertHis" parameterType="TopicHis" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO his_topic (<include refid="topicBaseInfo"/>,detail,create_date,link_topic_id)
+			VALUES (#{name},#{moderator.id},#{introduction},#{status},#{parentTopic.id},#{detail},
+				#{createDate},#{updateUser.id},#{linkTopic.id})
+	</insert>
+	<insert id="insertTopicManagerRF" parameterType="Topic">
+		INSERT INTO db_rf_topic_user(topic_id,user_id) VALUES
+		<foreach collection="#{managers}" item="manager" separator=",">
+			(#{id},#{manager.id})
+		</foreach>
+	</insert>
+	<insert id="insertTopicManagerHisRF" parameterType="TopicHis">
+		INSERT INTO his_rf_topic_user(topic_id,user_id) VALUES
+		<foreach collection="#{managers}" item="manager" separator=",">
+			(#{id},#{manager.id})
+		</foreach>
+	</insert>
+	
+	<delete id="deleteTopicManagerRF">
+		DELETE FROM db_rf_topic_user WHERE topic_id=#{topicId}
+	</delete>
+	<delete id="deleteTopicManagerHisRF">
+		DELETE FROM his_rf_topic_user WHERE topic_id=#{topicId}
+	</delete>
+	
+	<select id="queryById" resultMap="TopicMap">
+		SELECT * FROM db_topic WHERE id = #{id}
+	</select>
+	<resultMap type="Topic" id="TopicMap">
+		<association property="moderator" column="moderator_id"
+			select="com.tkira.moon.dao.SysUserMapper.querySimpleInfo"/>
+		<association property="parentTopic" column="parent_topic_id"
+			select="querySimpleInfo"/>
+		<collection property="managers" ofType="User" column="id"
+			select="queryTopicManagers"/>
+		<collection property="childrenTopics" ofType="Topic" column="id"
+			select="queryChildrenInfo"/>
+	</resultMap>
+	<select id="queryTopicManagers" resultType="User">
+		SELECT u.id,u.username,u.photo_url,u.introduction FROM 
+			sys_user u,db_rf_topic_user rf 
+			WHERE u.id=rf.user_id AND u.topic_id = #{id};
+	</select>
+	
+	<select id="querySimpleInfo" resultType="Topic">
+		SELECT id,<include refid="topicBaseInfo"/> FROM db_topic
+			WHERE id = #{id}
+	</select>
+	<select id="queryChildrenInfo">
+		SELECT id,<include refid="topicBaseInfo"/> FROM db_topic
+			WHERE parent_topic_id = #{id}
+	</select>
+	<select id="queryChildrenCount" resultType="int">
+		SELECT count(*) FROM db_topic WHERE parent_topic_id = #{id}
+	</select>
+	<select id="queryHisCountByLinkId" resultType="int">
+		SELECT count(*) FROM his_topic WHERE link_topic_id = #{id}
+	</select>
+	<select id="queryHisLimByLinkId" resultType="TopicHis">
+		SELECT * FROM his_topic WHERE link_topic_id = #{id} LIMIT #{rows},#{offset}
+	</select>
+</mapper>

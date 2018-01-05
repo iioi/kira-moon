@@ -9,7 +9,7 @@ spring:
     validationQuery: SELECT "Tkira" FROM DUAL
   thymeleaf:
     cache: false #关闭缓存
-    prefix: classpath:/views/ #添加路径前缀
+    prefix: classpath:/static/views/ #添加路径前缀
     mode: LEGACYHTML5 #模板支持html5
     
     

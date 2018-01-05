@@ -1,4 +1,4 @@
-package com.tkira.moon.util;
+package com.tkira.moon.entity.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
