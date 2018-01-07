@@ -17,7 +17,7 @@ update_time datetime
 CREATE TABLE sys_role(
 id INT auto_increment PRIMARY KEY,
 name VARCHAR(32),
-ch_name VAR CHAR(32),
+ch_name VARCHAR(32),
 introduction VARCHAR(128)
 );
 CREATE TABLE sys_rf_user_role(
