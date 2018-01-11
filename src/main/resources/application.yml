@@ -11,7 +11,10 @@ spring:
     cache: false #关闭缓存
     prefix: classpath:/static/views/ #添加路径前缀
     mode: LEGACYHTML5 #模板支持html5
-    
+  ldap:
+    urls: ldap://47.93.247.42:389
+    username: admin@qkira.com
+    password: secret
     
     
 mybatis:

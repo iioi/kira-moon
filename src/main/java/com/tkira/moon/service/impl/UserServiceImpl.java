@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.stereotype.Service;
 
 import com.tkira.moon.dao.SysUserMapper;
@@ -13,6 +14,9 @@ import com.tkira.moon.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
+	
+	@Autowired
+	private LdapTemplate ldapTemplate;
 
 	@Autowired
 	private SysUserMapper sysUserMapper;
